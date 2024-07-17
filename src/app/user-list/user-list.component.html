@@ -7,8 +7,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users$ | async" [class.bg-yellow-200]="user.isAdmin">
-        <td class="border px-4 py-2">{{ user.firstName }}</td>
+      <tr *ngFor="let user of users$ | async" [ngClass]="{'bg-success': user.isAdmin, 'text-white': user.isAdmin}">
+        <td class="border px-4 py-2"> <a routerLink="/details/{{user.id}}" class="link link-primary">{{ user.firstName }}</a></td>
         <td class="border px-4 py-2">{{ user.lastName }}</td>
         <td class="border px-4 py-2">{{ user.department }}</td>
       </tr>
