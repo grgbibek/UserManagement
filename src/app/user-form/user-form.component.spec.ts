@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserFormComponent } from './user-form.component';
-import { UserService } from '../_services/user.service';
+import { UserStore } from '../store/user.store';
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;
@@ -18,7 +18,7 @@ describe('UserFormComponent', () => {
       declarations: [ UserFormComponent ],
       imports: [ ReactiveFormsModule ],
       providers: [
-        { provide: UserService, useValue: userServiceMock },
+        { provide: UserStore, useValue: userServiceMock },
         { provide: Router, useValue: routerMock }
       ]
     })

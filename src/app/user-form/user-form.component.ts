@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../_models/user.model';
-import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
+import { UserStore } from '../store/user.store';
 
 @Component({
   selector: 'app-user-form',
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class UserFormComponent {
   userForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router
+  constructor(private fb: FormBuilder, private userStore: UserStore, private router: Router
   ) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -28,8 +28,8 @@ export class UserFormComponent {
       id: Date.now(),
       ...this.userForm.value
     };
-    this.userService.addUser(newUser);
-    this.userForm.reset();
+    this.userStore.addUser(newUser);
     this.router.navigate(['/']);
+
   }
 }

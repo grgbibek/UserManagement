@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { RouterModule } from '@angular/router';
+import { UserStore } from './store/user.store';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { RouterModule } from '@angular/router';
     AppRoutingModule,
     ReactiveFormsModule 
   ],
-  providers: [],
+  providers: [UserStore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

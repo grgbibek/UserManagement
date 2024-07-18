@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { User } from '../_models/user.model';
-import { UserService } from '../_services/user.service';
+import { UserStore } from '../store/user.store';
 
 @Component({
   selector: 'app-user-detail',
@@ -10,15 +10,21 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./user-detail.component.css']
 })
 export class UserDetailComponent implements OnInit {
-  user$!: Observable<User>;
+  user$!: Observable<User | undefined>;
 
   constructor(
     private route: ActivatedRoute,
-    private userService: UserService
+    private userStore: UserStore
   ) {}
 
   ngOnInit(): void {
-    const userId = +this.route.snapshot.paramMap.get('userId')!;
-    this.user$ = this.userService.getUserById(userId);
+    this.user$ = this.route.paramMap.pipe(
+      switchMap(params => {
+        const userId = Number(params.get('userId'));
+        return this.userStore.users$.pipe(
+          map(users => users.find(user => user.id === userId))
+        );
+      })
+    );
   }
 }

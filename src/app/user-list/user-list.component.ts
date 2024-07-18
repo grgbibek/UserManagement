@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../_models/user.model';
-import { UserService } from '../_services/user.service';
+import { UserStore } from '../store/user.store';
 
 @Component({
   selector: 'app-user-list',
@@ -9,11 +9,10 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  users$!: Observable<User[]>;
+  users$: Observable<User[]> = this.userStore.users$;
 
-  constructor(private userService: UserService) {}
+  constructor(private userStore: UserStore) {}
 
   ngOnInit(): void {
-    this.users$ = this.userService.getUsers();
   }
 }

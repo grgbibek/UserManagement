@@ -1,43 +1,47 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserListComponent } from './user-list.component';
-import { UserService } from '../_services/user.service';
+import { UserStore } from '../store/user.store';
 import { of } from 'rxjs';
 import { User } from '../_models/user.model';
 
 describe('UserListComponent', () => {
   let component: UserListComponent;
   let fixture: ComponentFixture<UserListComponent>;
-  let userService: UserService;
+  let mockUserStore: jest.Mocked<UserStore>;
+  let users: User[];
 
   beforeEach(async () => {
-    const userServiceMock = {
-      getUsers: jest.fn(() => of([{ id: 1, firstName: 'John', lastName: 'Doe', username: 'jdoe', isAdmin: true, department: 'Marketing' }] as User[]))
-    };
+    users = [
+      { id: 1, firstName: 'John', lastName: 'Doe', username: 'jdoe', isAdmin: true, department: 'Marketing' },
+      { id: 2, firstName: 'Jane', lastName: 'Smith', username: 'jsmith', isAdmin: false, department: 'Management' }
+    ];
+
+    mockUserStore = {
+      users$: of(users),
+    } as jest.Mocked<UserStore>;
 
     await TestBed.configureTestingModule({
       declarations: [UserListComponent],
       providers: [
-        { provide: UserService, useValue: userServiceMock }
+        { provide: UserStore, useValue: mockUserStore }
       ]
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(UserListComponent);
     component = fixture.componentInstance;
-    userService = TestBed.inject(UserService);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fetch users on initialization', () => {
-    component.ngOnInit();
-
-    expect(component.users$).toBeDefined();
-    component.users$.subscribe(users => {
-      expect(users.length).toBe(1);
-      expect(users[0].firstName).toBe('John');
+  it('should have users$ as an observable of users from the store', (done) => {
+    component.users$.subscribe((data) => {
+      expect(data).toEqual(users);
+      done();
     });
   });
-
 });
