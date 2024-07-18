@@ -1,0 +1,51 @@
+<!-- user-form.component.html -->
+<div class="card flex flex-col items-center justify-center">
+  <h2 class="text-2xl font-bold mb-4">Add New User</h2>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="space-y-4 w-full max-w-md">
+      <div class="form-control">
+          <label for="firstName" class="label">
+              First Name
+          </label>
+          <input id="firstName" formControlName="firstName" type="text" class="input input-primary">
+      </div>
+
+      <div class="form-control">
+          <label for="lastName" class="label">
+              Last Name
+          </label>
+          <input id="lastName" formControlName="lastName" type="text" class="input input-primary">
+      </div>
+
+      <div class="form-control">
+          <label for="username" class="label">
+              Username
+          </label>
+          <input id="username" formControlName="username" type="text" class="input input-primary">
+      </div>
+
+      <div class="form-control">
+        <label for="isAdmin" class="label flex items-center">
+            <span class="label-text mr-2">Admin</span>
+            <input id="isAdmin" formControlName="isAdmin" type="checkbox" class="checkbox">
+        </label>
+      </div>
+
+      <div class="form-control">
+          <label for="department" class="label">
+              Department
+          </label>
+          <select id="department" formControlName="department" class="select select-primary">
+              <option value="Marketing">Marketing</option>
+              <option value="Management">Management</option>
+              <option value="Maintenance">Maintenance</option>
+          </select>
+      </div>
+
+      <div class="form-control">
+          <button type="submit" class="btn btn-primary">
+              Add User
+          </button>
+      </div>
+  </form>
+</div>
